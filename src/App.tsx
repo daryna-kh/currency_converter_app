@@ -1,27 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 
-const originUrl = `http://api.nbp.pl/api/`;
+const apiKey = process.env.REACT_APP_API_KEY;
+const originUrl = `https://v6.exchangerate-api.com/v6`;
 
-function getValues() {
+async function getValues() {
   try {
-    const response = fetch(`http://api.nbp.pl/api/exchangerates/rates/a/chf/`, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(response);
+    const response = await fetch(`${originUrl}/${apiKey}/latest/USD`, {});
+
+    let json = await response.json();
+
+    console.log(json);
   } catch (error) {
     console.log(error);
   }
 }
 
 function App() {
+  // const [currency, setCurrency] = useState<string>("");
+
   return (
     <div className="App">
-      <button onClick={() => getValues}>Hi HU HU</button>
+      <button onClick={() => getValues()}>USD</button>
+      {/* <button onClick={() => getValues()}>EUR</button> */}
     </div>
   );
 }
